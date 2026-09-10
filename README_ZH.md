@@ -5,6 +5,9 @@
 本地运行的 AuK Base 与 AuK-Flash 语音生成、声音克隆、语音编辑、增强与人声分离。
 使用 ComfyUI 的模型管理、注意力与量化算子。音频输入输出使用 ComfyUI 原生的 `AUDIO` 类型。
 
+<img width="2115" height="698" alt="image" src="https://github.com/user-attachments/assets/5ef6e87b-4a24-4ae4-86fc-fcd3e54b3cab" />
+
+
 ## 节点
 
 | 节点 | 输入 | 输出 |
