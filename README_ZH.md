@@ -114,9 +114,11 @@ python -m pip install -r requirements.txt
 可将可选的 Instruction Builder 的 STRING 输出连接到 Instruction Encode 的
 instruction 输入，或直接输入任意受支持的指令。
 
-**AuK Whisper Transcribe** 是可选辅助节点：使用本地 Whisper 模型转写音频
-（将包含 `config.json` 的 Whisper 检查点目录放入 `ComfyUI/models/whisper/`
-或 `ComfyUI/models/audio_encoders/`；节点绝不联网下载）。AuK 从不需要参考
+**AuK Whisper Transcribe** 是可选辅助节点：使用 Whisper 模型转写音频。
+将包含 `config.json` 的 Whisper 检查点目录放入 `ComfyUI/models/whisper/`
+或 `ComfyUI/models/audio_encoders/`；也可以开启 `download_if_missing` 开关，
+从 openai/whisper 已知检查点（tiny 到 large-v3-turbo）下载一次到
+`models/whisper/<size>/`，之后复用本地副本。AuK 从不需要参考
 音频的文字稿——它的编码器直接听取音频——但文字稿有助于编写目标说话人、
 替换语音与歌词编辑指令，也可用于检查 AuK 实际说了什么。超过 30 秒的音频
 将分窗转写。

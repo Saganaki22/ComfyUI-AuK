@@ -131,9 +131,11 @@ canonical instruction and estimates the duration. Chain it as
 includes the language head (all released encoder files above qualify).
 
 **AuK Whisper Transcribe** is an optional helper: it transcribes audio with a
-local Whisper model (place any Whisper checkpoint folder containing
-`config.json` under `ComfyUI/models/whisper/` or `ComfyUI/models/audio_encoders/`;
-the node never downloads). AuK never needs a transcript of reference audio —
+Whisper model. Place any Whisper checkpoint folder containing
+`config.json` under `ComfyUI/models/whisper/` or `ComfyUI/models/audio_encoders/`,
+or enable its `download_if_missing` toggle to fetch a known openai/whisper
+checkpoint (tiny to large-v3-turbo) into `models/whisper/<size>/` once and reuse
+the local copy afterwards. AuK never needs a transcript of reference audio —
 its encoder listens to the clip directly — but a transcript helps you write
 target-speaker, replace-speech and lyric-edit instructions, and to check what
 AuK actually said. Clips longer than 30 seconds use Whisper's native timestamp-guided long-form processing without truncating the source.
