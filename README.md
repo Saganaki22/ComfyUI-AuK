@@ -182,7 +182,7 @@ are not implemented.
 
 ## Prompt adherence
 
-After rigorous testing on both FP32 and BF16 checkpoints, I have come to the conclusion that this model's prompt adherence is unfortunately not strong. This is a limitation of the model itself, not of this integration. Voice cloning, TTS and some editing tasks work, but many others do not always work. From my tests, from most to least reliable:
+After rigorous testing on both FP32 and BF16 checkpoints, I have come to the conclusion that this model's prompt adherence is unfortunately not strong in some tasks. This is a limitation of the model itself, not of this integration. Check the prompt adherence list I made, from most to least reliable:
 
 **Stable**
 
