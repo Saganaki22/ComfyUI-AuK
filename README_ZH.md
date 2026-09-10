@@ -214,4 +214,21 @@ ComfyUI 必须可导入（将其根目录加入 `PYTHONPATH`）。契约与回�
 `d9f30ffe4231dbc90b48cc83a35d310fece0b060`。AuK 代码与权重遵循其 MIT 许可证。
 BigVGAN 编解码源自 NVIDIA BigVGAN/HiFi-GAN；其 alias-free 重采样源自
 alias-free-torch。现有 ComfyUI 组件通过导入复用。Qwen 权重遵循上游 Qwen
-Research 许可证，其副本随转换后的编码器一并放置；转换不会重新授权。
+Research 许可证，其副本已随本节点包置于 `assets/qwen2.5-omni-3b/`；转换不会
+重新授权。
+
+## 引用
+
+研究使用 AuK 可引用以下条目（[arXiv:2609.08936](https://arxiv.org/abs/2609.08936)）：
+
+```bibtex
+@misc{ma2026auktechnicalreportopensource,
+  title={AuK Technical Report: An Open-Source Foundational Model for Speech Generation and Editing},
+  author={Ziyang Ma and Zhikang Niu and Wenming Tu and Tianrui Wang and Ruiqi Yan and Junxi Liu and Yanru Huo and Nickk Huang and Yang Liu and Qicong Xie and Zeyu Xie and Hui Wang and Haitao Li and Zixuan Jiang and Yalin Li and Jie Fang and Yifan Duan and Zeyue Tian and Guangzheng Li and Haina Zhu and Shuyi Wang and Jinwen Wang and Mingyu Cui and Tian Tan and Auden and Sen Liang and Steve Yves and Shan Yang and Liefeng Bo and Zilong Zheng and Kai Yu and Eng-Siong Chng and Xie Chen},
+  year={2026},
+  eprint={2609.08936},
+  archivePrefix={arXiv},
+  primaryClass={cs.SD},
+  url={https://arxiv.org/abs/2609.08936},
+}
+```

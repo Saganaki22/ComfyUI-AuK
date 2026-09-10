@@ -248,3 +248,19 @@ license. The BigVGAN codec derives from NVIDIA BigVGAN/HiFi-GAN; its alias-free
 resampling derives from alias-free-torch. Existing ComfyUI components are reused
 by import. Qwen weights retain the upstream Qwen Research license, bundled with
 the node under `assets/qwen2.5-omni-3b/`; conversion does not relicense them.
+
+## Citation
+
+Research using AuK can cite the following entry ([arXiv:2609.08936](https://arxiv.org/abs/2609.08936)):
+
+```bibtex
+@misc{ma2026auktechnicalreportopensource,
+  title={AuK Technical Report: An Open-Source Foundational Model for Speech Generation and Editing},
+  author={Ziyang Ma and Zhikang Niu and Wenming Tu and Tianrui Wang and Ruiqi Yan and Junxi Liu and Yanru Huo and Nickk Huang and Yang Liu and Qicong Xie and Zeyu Xie and Hui Wang and Haitao Li and Zixuan Jiang and Yalin Li and Jie Fang and Yifan Duan and Zeyue Tian and Guangzheng Li and Haina Zhu and Shuyi Wang and Jinwen Wang and Mingyu Cui and Tian Tan and Auden and Sen Liang and Steve Yves and Shan Yang and Liefeng Bo and Zilong Zheng and Kai Yu and Eng-Siong Chng and Xie Chen},
+  year={2026},
+  eprint={2609.08936},
+  archivePrefix={arXiv},
+  primaryClass={cs.SD},
+  url={https://arxiv.org/abs/2609.08936},
+}
+```
