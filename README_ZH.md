@@ -185,19 +185,6 @@ Base 默认 32 步 Euler、引导 2、sway -1。AuK 引导为
 17. 去除口音
 18. 在前面 / 后面插入语音、替换语音、改写歌词、耳语转换（双向）
 
-## 验证
-
-```shell
-python tests/test_contracts.py
-python tests/test_regression.py
-python tests/validate_models.py
-```
-
-ComfyUI 必须可导入（将其根目录加入 `PYTHONPATH`）。契约与回归测试套件可
-独立运行；模型验证使用 `.models/converted/` 并将音频/报告写入
-`.test-output/`。源码一致性测试还会使用 `.reference/src/` 中固定的上游快照。
-所有测试均不联网下载模型。实测结果与限制见 `tests/VALIDATION.md`。
-
 ## 版权与致谢
 
 改编自 [Tencent-Hunyuan/AuK](https://github.com/Tencent-Hunyuan/AuK)，提交

@@ -208,20 +208,6 @@ After rigorous testing on both FP32 and BF16 checkpoints, I have come to the con
 17. Remove accent
 18. Insert speech before / after, replace speech, edit lyrics, whisper conversion (either direction)
 
-## Validation
-
-```shell
-python tests/test_contracts.py
-python tests/test_regression.py
-python tests/validate_models.py
-```
-
-ComfyUI must be importable (include its root in `PYTHONPATH`). The contract and
-regression suites are self-contained; model validation reads the checkpoints
-from `ComfyUI/models/` and writes audio/reports to `.test-output/`. The source
-parity test additionally uses the pinned upstream snapshot in `.reference/src/`.
-No test downloads models. Measured results and limits are in `tests/VALIDATION.md`.
-
 ## Attribution
 
 Adapted from [Tencent-Hunyuan/AuK](https://github.com/Tencent-Hunyuan/AuK), commit
