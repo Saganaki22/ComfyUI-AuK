@@ -115,7 +115,9 @@ Drag a JSON from `example_workflows/` onto ComfyUI:
 
 Select the installed checkpoints in the loaders. The audio examples require you
 to select/upload an input in Load Audio. They do not ship an unrelated recording.
-Change Base to Flash in the same graph to use the distilled model. On Windows,
+Base and Flash perform the same tasks; pick one per run. Flash is the distilled
+model — four fixed steps, no guidance — for speed. Base takes 32 steps with
+guidance and is the choice for quality. On Windows,
 ComfyUI lists subfolder models with backslashes; if a loader shows its value as
 missing after loading a workflow, re-select the checkpoint in the dropdown.
 

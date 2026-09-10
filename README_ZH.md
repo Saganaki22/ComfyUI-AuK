@@ -106,7 +106,8 @@ python -m pip install -r requirements.txt
    可自动下载）、Instruction Builder 与 Prompt Enhance。
 
 在加载器中选择已安装的检查点。音频示例需要你在 Load Audio 中选择/上传输入，
-不附带任何示例录音。在同一图中把 Base 换成 Flash 即可使用蒸馏模型。
+不附带任何示例录音。Base 与 Flash 执行相同任务，每次运行任选其一：Flash 是
+蒸馏模型，固定四步、无引导，速度快；Base 为 32 步加引导，追求质量。
 
 在 Windows 上，ComfyUI 以反斜杠列出子目录模型；载入工作流后如果加载器显示
 数值缺失，请在下拉框中重新选择一次检查点。
