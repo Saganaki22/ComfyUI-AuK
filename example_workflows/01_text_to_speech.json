@@ -1,0 +1,469 @@
+{
+  "id": "33a6a410-4f97-4642-ad60-f873cd85656a",
+  "revision": 0,
+  "last_node_id": 8,
+  "last_link_id": 6,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "AuKModelLoader",
+      "pos": [
+        29.356301378362918,
+        31.931095864911246
+      ],
+      "size": [
+        342.82731745581657,
+        106
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "AUK_MODEL",
+          "type": "AUK_MODEL",
+          "slot_index": 0,
+          "links": [
+            1,
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "aux_id": "Saganaki22/ComfyUI-AuK",
+        "ver": "unknown",
+        "Node name for S&R": "AuKModelLoader",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "auk_base_w4a8.safetensors",
+        "auto",
+        "auto"
+      ],
+      "widgets_values_named": {
+        "model_name": "AuK\\auk_base_bf16.safetensors",
+        "precision": "auto",
+        "attention": "auto"
+      },
+      "color": "#323",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 4,
+      "type": "AuKInstructionEncode",
+      "pos": [
+        375.584795107041,
+        30.689041350887496
+      ],
+      "size": [
+        340,
+        230
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "AUK_MODEL",
+          "link": 1
+        },
+        {
+          "name": "encoder",
+          "type": "AUK_ENCODER",
+          "link": 2
+        },
+        {
+          "name": "audio",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "slot_index": 0,
+          "links": [
+            5
+          ]
+        }
+      ],
+      "properties": {
+        "aux_id": "Saganaki22/ComfyUI-AuK",
+        "ver": "unknown",
+        "Node name for S&R": "AuKInstructionEncode",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "Generate speech based on the following description: \"A warm, clear female voice\". The content to speak is: \"Hello, welcome to AuK.\""
+      ],
+      "widgets_values_named": {
+        "instruction": "Generate speech based on the following description: \"A warm, clear female voice\". The content to speak is: \"Hello, welcome to AuK.\""
+      },
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 5,
+      "type": "AuKGenerateEdit",
+      "pos": [
+        718.9393164029776,
+        28.114246864339176
+      ],
+      "size": [
+        340,
+        230
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "AUK_MODEL",
+          "link": 3
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 5
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 4
+        }
+      ],
+      "outputs": [
+        {
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "slot_index": 0,
+          "links": [
+            6
+          ]
+        }
+      ],
+      "properties": {
+        "aux_id": "Saganaki22/ComfyUI-AuK",
+        "ver": "unknown",
+        "Node name for S&R": "AuKGenerateEdit",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        3,
+        42,
+        "fixed",
+        32,
+        2,
+        -1
+      ],
+      "widgets_values_named": {
+        "seconds": 3,
+        "seed": 42,
+        "control_after_generate": "fixed",
+        "steps": 32,
+        "guidance": 2,
+        "sway": -1
+      },
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 6,
+      "type": "SaveAudioAdvanced",
+      "pos": [
+        1065.512330807101,
+        28.757945485976258
+      ],
+      "size": [
+        340,
+        136
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 6
+        }
+      ],
+      "outputs": [
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "slot_index": 0,
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "SaveAudioAdvanced",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "audio/AuK",
+        "flac"
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "audio/AuK",
+        "format": "flac"
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 8,
+      "type": "MarkdownNote",
+      "pos": [
+        397.4158274228766,
+        323.77091824737266
+      ],
+      "size": [
+        591.6267035063197,
+        191.37146771892162
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Text-to-speech",
+      "properties": {
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "## Text-to-speech\n\n1. Select your installed models in all three loaders.\n2. Edit the voice description and spoken text in Instruction Encode. Leave audio disconnected.\n3. Set seconds to fit the sentence (3 seconds for this short example), then queue.\n\n**Example**\n\nGenerate speech based on the following description: \"A warm, clear female voice\". The content to speak is: \"Hello, welcome to AuK.\"\n\nIf words are cut off, increase seconds. Save Audio writes the result to output/audio/. Keep seed fixed for comparisons."
+      ],
+      "widgets_values_named": {
+        "text": "## Text-to-speech\n\n1. Select your installed models in all three loaders.\n2. Edit the voice description and spoken text in Instruction Encode. Leave audio disconnected.\n3. Set seconds to fit the sentence (3 seconds for this short example), then queue.\n\n**Example**\n\nGenerate speech based on the following description: \"A warm, clear female voice\". The content to speak is: \"Hello, welcome to AuK.\"\n\nIf words are cut off, increase seconds. Save Audio writes the result to output/audio/. Keep seed fixed for comparisons."
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 2,
+      "type": "AuKEncoderLoader",
+      "pos": [
+        29.79144164658959,
+        176.11068669948705
+      ],
+      "size": [
+        338.0689041350887,
+        82
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "AUK_ENCODER",
+          "type": "AUK_ENCODER",
+          "slot_index": 0,
+          "links": [
+            2
+          ]
+        }
+      ],
+      "properties": {
+        "aux_id": "Saganaki22/ComfyUI-AuK",
+        "ver": "unknown",
+        "Node name for S&R": "AuKEncoderLoader",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "qwen_omni_bf16.safetensors",
+        "auto"
+      ],
+      "widgets_values_named": {
+        "encoder_name": "AuK\\qwen_omni_bf16.safetensors",
+        "precision": "auto"
+      },
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 3,
+      "type": "AuKVAELoader",
+      "pos": [
+        32.157677779727514,
+        297.54776153300236
+      ],
+      "size": [
+        338.481514951558,
+        58
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "slot_index": 0,
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "aux_id": "Saganaki22/ComfyUI-AuK",
+        "ver": "unknown",
+        "Node name for S&R": "AuKVAELoader",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "auk_vae.safetensors"
+      ],
+      "widgets_values_named": {
+        "vae_name": "AuK\\auk_vae.safetensors"
+      },
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 7,
+      "type": "MarkdownNote",
+      "pos": [
+        -556.0239394798657,
+        34.28381432699478
+      ],
+      "size": [
+        564.9122697753876,
+        605.0698727782393
+      ],
+      "flags": {
+        "pinned": true
+      },
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "AuK — models and setup",
+      "properties": {
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "## AuK models\n\nDownload one diffusion model, one Qwen encoder and the VAE. Mix precisions if needed. Sizes below are disk GB, not VRAM requirements.\n\n| Model | BF16 | INT8 ConvRot | W4A8 ConvRot |\n| --- | --- | --- | --- |\n| Base | [3.062 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_bf16.safetensors?download=true) | [1.546 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_int8.safetensors?download=true) | [0.880 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_w4a8.safetensors?download=true) |\n| Flash | [3.062 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_bf16.safetensors?download=true) | [1.546 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_int8.safetensors?download=true) | [0.880 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_w4a8.safetensors?download=true) |\n| Qwen encoder | [8.070 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_bf16.safetensors?download=true) | [4.669 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_int8.safetensors?download=true) | [3.179 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_w4a8.safetensors?download=true) |\n\n[VAE: 0.637 GB, unquantized](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/vae/auk_vae.safetensors?download=true)\n\n## Model folders\n\n```text\n📂 ComfyUI/\n└── 📂 models/\n    ├── 📂 diffusion_models/\n    │   └── auk_base_w4a8.safetensors\n    ├── 📂 text_encoders/\n    │   └── qwen_omni_bf16.safetensors\n    └── 📂 vae/\n        └── auk_vae.safetensors\n```\n\nThe filenames above are the ones this workflow selects; other formats work, select your installed files in the loaders. Qwen config/tokenizer files are bundled with the node pack; only download weights.\n\n## Settings\n\n- Base: 32 steps, guidance 2, sway -1.\n- Flash: fixed four steps, no guidance; ignores those controls.\n- Compute precision: auto. Quantization comes from the checkpoint.\n- Attention: auto follows ComfyUI; explicit Flash/Sage fall back to SDPA when incompatible or masked.\n- Output: mono 24 kHz.\n- Reference/source audio plus the generated target share one 30-second budget; trim longer clips first.\n\n[Task guide with examples](https://github.com/Saganaki22/ComfyUI-AuK/blob/main/docs/GUIDE.md) · [Report an issue](https://github.com/Saganaki22/ComfyUI-AuK/issues)"
+      ],
+      "widgets_values_named": {
+        "text": "## AuK models\n\nDownload one diffusion model, one Qwen encoder and the VAE. Mix precisions if needed. Sizes below are disk GB, not VRAM requirements.\n\n| Model | BF16 | INT8 ConvRot | W4A8 ConvRot |\n| --- | --- | --- | --- |\n| Base | [3.062 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_bf16.safetensors?download=true) | [1.546 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_int8.safetensors?download=true) | [0.880 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_w4a8.safetensors?download=true) |\n| Flash | [3.062 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_bf16.safetensors?download=true) | [1.546 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_int8.safetensors?download=true) | [0.880 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_w4a8.safetensors?download=true) |\n| Qwen encoder | [8.070 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_bf16.safetensors?download=true) | [4.669 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_int8.safetensors?download=true) | [3.179 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_w4a8.safetensors?download=true) |\n\n[VAE: 0.637 GB, unquantized](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/vae/auk_vae.safetensors?download=true)\n\n## Model folders\n\n```text\n📂 ComfyUI/\n└── 📂 models/\n    ├── 📂 diffusion_models/\n    │   └── auk_base_w4a8.safetensors\n    ├── 📂 text_encoders/\n    │   └── qwen_omni_bf16.safetensors\n    └── 📂 vae/\n        └── auk_vae.safetensors\n```\n\nThe filenames above are the ones this workflow selects; other formats work, select your installed files in the loaders. Qwen config/tokenizer files are bundled with the node pack; only download weights.\n\n## Settings\n\n- Base: 32 steps, guidance 2, sway -1.\n- Flash: fixed four steps, no guidance; ignores those controls.\n- Compute precision: auto. Quantization comes from the checkpoint.\n- Attention: auto follows ComfyUI; explicit Flash/Sage fall back to SDPA when incompatible or masked.\n- Output: mono 24 kHz.\n- Reference/source audio plus the generated target share one 30-second budget; trim longer clips first.\n\n[Task guide with examples](https://github.com/Saganaki22/ComfyUI-AuK/blob/main/docs/GUIDE.md) · [Report an issue](https://github.com/Saganaki22/ComfyUI-AuK/issues)"
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    }
+  ],
+  "links": [
+    [
+      1,
+      1,
+      0,
+      4,
+      0,
+      "AUK_MODEL"
+    ],
+    [
+      2,
+      2,
+      0,
+      4,
+      1,
+      "AUK_ENCODER"
+    ],
+    [
+      3,
+      1,
+      0,
+      5,
+      0,
+      "AUK_MODEL"
+    ],
+    [
+      4,
+      3,
+      0,
+      5,
+      2,
+      "VAE"
+    ],
+    [
+      5,
+      4,
+      0,
+      5,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      6,
+      5,
+      0,
+      6,
+      0,
+      "AUDIO"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.876922695000003,
+      "offset": [
+        1013.8884726937923,
+        279.96610689252424
+      ]
+    },
+    "ue_links": [],
+    "frontendVersion": "1.51.10",
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4,
+  "seed_widgets": {
+    "5": 1
+  }
+}

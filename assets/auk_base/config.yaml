@@ -1,0 +1,45 @@
+model:
+  name: AuK
+  backbone: Flux2Edit
+  cfm_class: CFMEdit
+
+  schedule:
+    t_sampling: logistic_normal
+    P_mean: -0.8
+    P_std: 0.8
+
+  text_encoder:
+    text_encoder_path: ckpts/Qwen2.5-Omni-3B
+
+  arch:
+    dim: 1536
+    heads: 24
+    ff_mult: 2
+    text_hidden_dim: 2048
+    attn_backend: flash_attn # CLI overrides to "torch" for inference (no flash_attn dep)
+    attn_mask_enabled: True
+    checkpoint_activations: True # gradient checkpointing: peak ~91G→~75G at every_n=4
+    checkpoint_every_n_layers: 4 # checkpoint every 4th layer (fewer recomputes, faster than every=1)
+    num_layers: 10
+    num_single_layers: 20
+
+  vae:
+    vae_name: BigVGANFlowVAE
+    vae_model_path: ckpts/AuK/vae.safetensors
+    latent_dim: 64
+    downsample_rate: 480
+    target_sample_rate: 24000
+    model_init_kwargs:
+      upsample_rates: [5, 4, 3, 2, 2, 2]
+      upsample_kernel_sizes: [10, 8, 6, 4, 4, 4]
+      upsample_initial_channel: 1536
+      resblock_kernel_sizes: [3, 7, 11]
+      resblock_dilation_sizes: [[1, 3, 5], [1, 3, 5], [1, 3, 5]]
+      downsample_rates: [2, 2, 2, 3, 4, 5]
+      downsample_channels: [12, 24, 48, 96, 192, 384, 768]
+      snake_logscale: true
+      latent_dim: ${model.vae.latent_dim}
+      use_vae: true
+      causal: true
+      flow_hidden_channels: 256
+      act_causal: true

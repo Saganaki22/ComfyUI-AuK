@@ -1,0 +1,15 @@
+[project]
+name = "ComfyUI-AuK"
+version = "1.0.0"
+description = "AuK speech generation and editing with local Qwen conditioning and ComfyUI model management"
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+dependencies = ["transformers>=5.3,<6", "safetensors", "PyYAML"]
+
+[project.urls]
+Repository = "https://github.com/Saganaki22/ComfyUI-AuK"
+
+[tool.comfy]
+PublisherId = "saganaki22"
+DisplayName = "ComfyUI-AuK"
+Icon = "https://avatars.githubusercontent.com/u/84208527"
