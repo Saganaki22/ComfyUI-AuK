@@ -6,6 +6,9 @@ Local AuK Base and AuK-Flash speech generation, voice cloning, editing, enhancem
 and separation. Uses ComfyUI model management, attention and quantized operations.
 Audio input/output uses the core ComfyUI `AUDIO` type.
 
+<img width="2115" height="698" alt="image" src="https://github.com/user-attachments/assets/741b37dc-72eb-46ac-982d-eb90591e64d7" />
+
+
 ## Nodes
 
 | Node | Inputs | Output |
