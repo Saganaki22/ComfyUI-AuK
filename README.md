@@ -51,10 +51,11 @@ Restart ComfyUI after installing the nodes or adding new model directories.
 
 Download ready-to-use checkpoints from **[drbaph/AuK-comfyui](https://huggingface.co/drbaph/AuK-comfyui)**. Choose one Base or Flash checkpoint, one Qwen encoder, and the unquantized VAE. Model and encoder formats can be mixed; you do not need every file.
 
-Sizes are decimal GB (1 GB = 1,000,000,000 bytes), measured from the converted files, and are not VRAM requirements. All ten checkpoint files are available in the model repository.
+Sizes are decimal GB (1 GB = 1,000,000,000 bytes), measured from the converted files, and are not VRAM requirements. All eleven checkpoint files are available in the model repository.
 
 | Model file | Size | Folder under ComfyUI/models/ | Direct download |
 | --- | ---: | --- | --- |
+| `auk_base_fp32.safetensors` | 6.122 GB | `diffusion_models/` | [⬇ Download](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_fp32.safetensors?download=true) |
 | `auk_base_bf16.safetensors` | 3.062 GB | `diffusion_models/` | [⬇ Download](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_bf16.safetensors?download=true) |
 | `auk_base_int8.safetensors` | 1.546 GB | `diffusion_models/` | [⬇ Download](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_int8.safetensors?download=true) |
 | `auk_base_w4a8.safetensors` | 0.880 GB | `diffusion_models/` | [⬇ Download](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_w4a8.safetensors?download=true) |
@@ -70,6 +71,7 @@ Sizes are decimal GB (1 GB = 1,000,000,000 bytes), measured from the converted f
 📂 ComfyUI/
 └── 📂 models/
     ├── 📂 diffusion_models/
+    │   ├── auk_base_fp32.safetensors
     │   ├── auk_base_bf16.safetensors
     │   ├── auk_base_int8.safetensors
     │   ├── auk_base_w4a8.safetensors
