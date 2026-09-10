@@ -92,7 +92,7 @@ Remove 'you know'.
 
 [Example workflow](../example_workflows/02_audio_edit_or_clone.json)
 
-Input must be a cappella — clean solo singing with no instrumental backing. If the track has accompaniment, extract singing first, then connect that output to the second Instruction Encode.audio for the lyric edit. Change only one or two words per edit, and pick replacement words that sound similar to the originals — similar syllable count and vowel sounds. If the new words do not resemble the old ones, the model will not follow the instruction. Set seconds=0 to retain the melody timing. The workflow does not automatically remix the edited vocal with the accompaniment.
+Input must be acapella — clean solo singing with no instrumental backing. If the track has accompaniment, extract singing first, then connect that output to the second Instruction Encode.audio for the lyric edit. Change only one or two words per edit, and pick replacement words that sound similar to the originals — similar syllable count and vowel sounds. If the new words do not resemble the old ones, the model will not follow the instruction. Set seconds=0 to retain the melody timing. The workflow does not automatically remix the edited vocal with the accompaniment.
 
 **Edit lyrics**
 
