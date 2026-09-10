@@ -9,7 +9,7 @@ Audio input/output uses the core ComfyUI `AUDIO` type.
 <img width="2115" height="698" alt="image" src="https://github.com/user-attachments/assets/741b37dc-72eb-46ac-982d-eb90591e64d7" />
 
 
-> **Read this before installing:** this model's prompt adherence is not strong — voice cloning, TTS and some editing tasks work, but many others only work sometimes. This is a limitation of the model itself, not of this integration. See [Prompt adherence](#prompt-adherence) for the tested task list before you download anything.
+> **Read this before installing:** this model's prompt adherence is not strong — voice cloning, TTS and some editing tasks work, but others are unstable. This is a limitation of the model itself, not of this integration. See [Prompt adherence](#prompt-adherence) for the tested task list before you download anything.
 
 ## Nodes
 
