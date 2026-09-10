@@ -8,6 +8,8 @@
 <img width="2115" height="698" alt="image" src="https://github.com/user-attachments/assets/5ef6e87b-4a24-4ae4-86fc-fcd3e54b3cab" />
 
 
+> **安装前请先阅读：** 该模型的指令遵循度并不强——声音克隆、TTS 与部分编辑任务可用，但许多任务并不总是有效。下载任何模型前，请先查看[指令遵循度](#指令遵循度)中的实测任务列表。
+
 ## 节点
 
 | 节点 | 输入 | 输出 |
@@ -91,28 +93,6 @@ python -m pip install -r requirements.txt
 显存峰值主要取决于音频长度、注意力后端与 ComfyUI 的卸载策略。一次量化模型与编码器组合的实测峰值约 **8 GB**，这只是观测值，不是最低要求。旧验证表中的 3.88 GB 仅是 PyTorch 分配量，不代表总显存需求。
 
 节点只读取本地文件，不会自动下载模型。加载器 `precision` 控制计算精度，文件元数据决定量化格式；`attention` 控件选择注意力后端——`auto`/`sdpa` 与上游推理完全一致，`flash_attention`/`sageattention` 为可选实验，遇掩码或不支持的精度时回退 SDPA。
-
-## 转换
-
-使用 ComfyUI 的 Python/Comfy Kitchen 环境运行。源文件保持不变；转换器拒绝
-覆盖已存在的输出。量化使用 Comfy Kitchen 自身的旋转、打包与缩放，不是简单
-的整数类型转换。
-
-```shell
-python tools/convert.py /models/AuK/auk_base.safetensors /output/diffusion_models/auk_base_bf16.safetensors --component diffusion --variant base --precision bf16
-python tools/convert.py /models/AuK/auk_base.safetensors /output/diffusion_models/auk_base_int8.safetensors --component diffusion --variant base --precision int8 --device cuda
-python tools/convert.py /models/AuK/auk_base.safetensors /output/diffusion_models/auk_base_w4a8.safetensors --component diffusion --variant base --precision w4a8 --device cuda
-python tools/convert.py /models/Qwen2.5-Omni-3B /output/text_encoders/qwen_omni_int8.safetensors --component encoder --precision int8 --device cuda
-```
-
-Flash 使用其源检查点并加 `--variant flash`。Qwen 请以 `--precision bf16` 与
-`--precision w4a8` 及不同输出文件名重复执行；语言模型头始终保留为 BF16，
-Prompt Enhance 需要它。`vae.safetensors` 原样复制到 VAE 模型目录即可，不做
-任何量化。编码器转换只需要原始 Qwen 目录中的权重分片；分词器与配置文件已
-内置在节点包的 `assets/qwen2.5-omni-3b/`。
-
-共量化 204 个 AuK 线性层与 445 个 Qwen 线性层；嵌入、卷积与较小层保持
-浮点。归一化向量与扩散旋转频率保留源精度。
 
 ## 工作流
 

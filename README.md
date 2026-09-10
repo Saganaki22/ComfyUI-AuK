@@ -9,6 +9,8 @@ Audio input/output uses the core ComfyUI `AUDIO` type.
 <img width="2115" height="698" alt="image" src="https://github.com/user-attachments/assets/741b37dc-72eb-46ac-982d-eb90591e64d7" />
 
 
+> **Read this before installing:** this model's prompt adherence is not strong — voice cloning, TTS and some editing tasks work, but many others only work sometimes. See [Prompt adherence](#prompt-adherence) for the tested task list before you download anything.
+
 ## Nodes
 
 | Node | Inputs | Output |
@@ -99,37 +101,6 @@ selects quantization; the loader's `precision` controls compute dtype and its
 `attention` control selects the attention backend — `auto`/`sdpa` match
 upstream inference exactly, while `flash_attention`/`sageattention` are opt-in
 and fall back to SDPA for masked edit steps or unsupported dtypes.
-
-## Conversion
-
-The released checkpoints above are ready to use. To convert other precisions
-yourself, download the originals from
-[tencent/AuK](https://huggingface.co/tencent/AuK),
-[tencent/AuK-Flash](https://huggingface.co/tencent/AuK-Flash) and
-[Qwen/Qwen2.5-Omni-3B](https://huggingface.co/Qwen/Qwen2.5-Omni-3B), then run
-with ComfyUI's Python/Comfy Kitchen installation. Source files are left intact;
-the converter refuses to overwrite existing outputs. Quantization uses Comfy
-Kitchen's own rotation, packing and scales, not a plain integer cast.
-
-```shell
-python tools/convert.py /models/AuK/auk_base.safetensors /output/diffusion_models/auk_base_bf16.safetensors --component diffusion --variant base --precision bf16
-python tools/convert.py /models/AuK/auk_base.safetensors /output/diffusion_models/auk_base_int8.safetensors --component diffusion --variant base --precision int8 --device cuda
-python tools/convert.py /models/AuK/auk_base.safetensors /output/diffusion_models/auk_base_w4a8.safetensors --component diffusion --variant base --precision w4a8 --device cuda
-python tools/convert.py /models/Qwen2.5-Omni-3B /output/text_encoders/qwen_omni_int8.safetensors --component encoder --precision int8 --device cuda
-```
-
-For Flash use its source checkpoint and `--variant flash`. For Qwen, repeat with
-`--precision bf16` and `--precision w4a8` and distinct output filenames; the
-language-model head is always kept in BF16 because the Prompt Enhance needs it.
-Copy `vae.safetensors` unchanged into the VAE model directory. No VAE
-quantization is performed. The encoder conversion requires the original Qwen
-directory only for the weight shards; its tokenizer/config sidecars ship with
-this node pack under `assets/qwen2.5-omni-3b/`.
-
-204 AuK linear layers and 445 Qwen linear layers are quantized. Embeddings,
-the language-model head, convolutions and small layers remain floating point.
-Normalization vectors and diffusion rotary frequencies retain their source
-precision.
 
 ## Workflows
 
