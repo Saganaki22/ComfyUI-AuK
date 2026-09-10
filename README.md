@@ -195,7 +195,7 @@ After rigorous testing on both FP32 and BF16 checkpoints, I have come to the con
 7. Denoise only
 8. Repair quality
 
-**Unstable**
+**Less stable**
 
 9. Keep human voices
 10. Change emotion
