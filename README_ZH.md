@@ -47,11 +47,12 @@ python -m pip install -r requirements.txt
 
 预转换模型：[drbaph/AuK-comfyui](https://huggingface.co/drbaph/AuK-comfyui)。选择一个 Base 或 Flash 模型、一个 Qwen 编码器，再下载未量化 VAE。三种量化版本可以独立搭配，无需全部下载。
 
-下表使用十进制 GB（1 GB = 1,000,000,000 字节），表示文件大小，不是显存需求。全部十一个检查点文件均已上传，下载链接已核对。
+下表使用十进制 GB（1 GB = 1,000,000,000 字节），表示文件大小，不是显存需求。全部十二个检查点文件均已上传，下载链接已核对。
 
 | 模型文件 | 大小 | ComfyUI/models/ 下的目录 | 直接下载 |
 | --- | ---: | --- | --- |
 | `auk_base_fp32.safetensors` | 6.122 GB | `diffusion_models/` | [⬇ 下载](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_fp32.safetensors?download=true) |
+| `auk_flash_fp32.safetensors` | 6.122 GB | `diffusion_models/` | [⬇ 下载](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_fp32.safetensors?download=true) |
 | `auk_base_bf16.safetensors` | 3.062 GB | `diffusion_models/` | [⬇ 下载](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_bf16.safetensors?download=true) |
 | `auk_base_int8.safetensors` | 1.546 GB | `diffusion_models/` | [⬇ 下载](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_int8.safetensors?download=true) |
 | `auk_base_w4a8.safetensors` | 0.880 GB | `diffusion_models/` | [⬇ 下载](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_w4a8.safetensors?download=true) |
@@ -68,6 +69,7 @@ python -m pip install -r requirements.txt
 └── 📂 models/
     ├── 📂 diffusion_models/
     │   ├── auk_base_fp32.safetensors
+    │   ├── auk_flash_fp32.safetensors
     │   ├── auk_base_bf16.safetensors
     │   ├── auk_base_int8.safetensors
     │   ├── auk_base_w4a8.safetensors
