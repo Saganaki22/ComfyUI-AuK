@@ -184,7 +184,7 @@ are not implemented.
 
 ## Prompt adherence
 
-After rigorous testing on both FP32 and BF16 checkpoints, I have come to the conclusion that this model's prompt adherence is unfortunately not strong in some tasks. This is a limitation of the model itself, not of this integration. Check the prompt adherence list I made, from most to least reliable:
+After rigorous testing on both FP32 and BF16 checkpoints, I have come to the conclusion that this model's prompt adherence is not strong in some tasks. This is a limitation of the model itself, not of this integration. Check the prompt adherence list I made, from most to least reliable:
 
 Tests against the Hugging Face demo used the same source audio, instructions and
 Prompt Enhance path. For difficult edits, setting the output **0.2–0.5 seconds
