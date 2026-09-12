@@ -22,7 +22,7 @@ Audio input/output uses the core ComfyUI `AUDIO` type.
 | AuK Generate / Edit | Model, VAE, conditioning, duration, seed, steps, guidance, sway | AUDIO |
 | AuK Instruction Builder | Task and its relevant fields | STRING |
 | AuK Whisper Transcribe | Audio, model, language, task | STRING |
-| AuK Prompt Enhance | Encoder, instruction, optional context | instruction, seconds, task |
+| AuK Prompt Enhance | Encoder, request, optional ASR context/audio | instruction, seconds, task, prepared audio |
 
 Instruction Encode receives the AuK model because Base and Flash contain their own
 learned Qwen layer-fusion weights. Encoding happens once before denoising.
@@ -124,13 +124,15 @@ missing after loading a workflow, re-select the checkpoint in the dropdown.
 Connect the optional Instruction Builder's STRING output to the instruction input
 of Instruction Encode, or type any supported instruction directly.
 
-**AuK Prompt Enhance** is the local version of upstream's Prompt Enhancer: give
-it a loosely worded request and the language-model head of your loaded encoder
-maps it to the closest AuK task, snaps values to legal choices, renders the
-canonical instruction and estimates the duration. Chain it as
-`Instruction Builder → AuK Prompt Enhance → Instruction Encode` and wire its
-`seconds` output into Generate / Edit. It needs an encoder checkpoint that
-includes the language head (all released encoder files above qualify).
+**AuK Prompt Enhance** reproduces the useful PE stages locally with the
+Qwen2.5-Omni-3B language head. Connect source audio and, preferably, the source
+transcript from AuK Whisper Transcribe. It classifies the request, renders the
+canonical instruction, calculates task-aware duration, and applies the upstream
+whisper RMS targets. Wire `instruction` to Instruction Encode, `seconds`
+to Generate / Edit, and `prepared_audio` to Instruction Encode's audio input.
+It needs an encoder checkpoint containing the language head (all released
+encoder files above qualify). This avoids the external OpenAI-compatible LLM;
+classification quality can therefore differ from upstream's recommended `hy3`.
 
 **AuK Whisper Transcribe** is an optional helper: it transcribes audio with a
 Whisper model. Place any Whisper checkpoint folder containing

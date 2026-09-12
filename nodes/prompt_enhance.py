@@ -6,12 +6,25 @@ estimate the generation duration. All LLM calls run in-process on the encoder
 loaded by AuK Encoder Loader; nothing here touches the network.
 """
 import json
+import math
 import re
+
+import torch
 
 SPEED_CHOICES = (0.5, 0.75, 1.25, 1.5, 2.0)
 DECIBEL_CHOICES = (5, 10, 15)
 SECONDS_PER_UTF8_BYTE = 0.075
 TTS_TASKS = ("Voice description TTS", "Voice cloning")
+FRAMES_PER_SECOND = 50
+WHISPER_TARGET_RMS = 0.0064
+WHISPER_TO_NORMAL_TARGET_RMS = 0.000707945784384138
+WHISPER_PEAK_CEILING = 0.95
+EMOTION_MULTIPLIERS = {
+    "sad": 1.22,
+    "fearful": 1.16,
+    "surprised": 0.92,
+    "excited": 0.90,
+}
 
 SYSTEM_PROMPT = """You map a loose audio request to exactly one AuK task and fill its slots.
 Available tasks, name -> canonical instruction template:
@@ -128,7 +141,87 @@ def estimate_seconds(text, seconds):
     return round(max(1.0, len(str(text).encode("utf-8")) * SECONDS_PER_UTF8_BYTE), 1)
 
 
-def enhance(encoder, instruction, tasks, context=None, max_new_tokens=256):
+def _spoken_duration(text):
+    value = str(text or "")
+    chinese = len(re.findall(r"[\u3400-\u9fff]", value))
+    english = len(re.findall(r"[A-Za-z]+(?:['’][A-Za-z]+)*", value))
+    return chinese * 0.21 + english * 0.30
+
+
+def _source_seconds(audio):
+    if audio is None:
+        return None
+    waveform = audio.get("waveform")
+    sample_rate = audio.get("sample_rate")
+    if not torch.is_tensor(waveform) or waveform.ndim != 3 or waveform.shape[-1] == 0:
+        raise ValueError("Prompt Enhance audio must be a non-empty ComfyUI AUDIO value.")
+    if not isinstance(sample_rate, int) or sample_rate <= 0:
+        raise ValueError("Prompt Enhance audio has an invalid sample rate.")
+    return waveform.shape[-1] / sample_rate
+
+
+def _content_seconds(task, params, source_seconds, transcript):
+    slots = {
+        "Replace speech": ("replacement", "original"),
+        "Insert speech before": ("text", None),
+        "Insert speech after": ("text", None),
+        "Remove speech": (None, "text"),
+        "Edit lyrics": ("replacement", "original"),
+    }
+    add_slot, remove_slot = slots[task]
+    original = _spoken_duration(transcript)
+    if original > 0:
+        edited = original + (_spoken_duration(params.get(add_slot)) if add_slot else 0)
+        edited -= _spoken_duration(params.get(remove_slot)) if remove_slot else 0
+        return source_seconds * max(0.05, edited) / original
+    if add_slot and remove_slot:
+        removed = _spoken_duration(params.get(remove_slot))
+        replacement = _spoken_duration(params.get(add_slot))
+        return source_seconds * replacement / removed if removed > 0 else source_seconds
+    return source_seconds
+
+
+def task_seconds(task, params, audio, transcript, suggested):
+    source_seconds = _source_seconds(audio)
+    if task in TTS_TASKS:
+        return estimate_seconds(params.get("text"), suggested)
+    if source_seconds is None:
+        raise ValueError(f"{task} requires audio for Prompt Enhance duration calculation.")
+    if task == "Change speed":
+        duration = source_seconds / float(params.get("factor") or 1.0)
+    elif task in ("Replace speech", "Insert speech before", "Insert speech after", "Remove speech", "Edit lyrics"):
+        duration = _content_seconds(task, params, source_seconds, transcript)
+    elif task == "Change emotion":
+        duration = source_seconds * EMOTION_MULTIPLIERS.get(str(params.get("description", "")).lower(), 1.0)
+    elif task == "Add nonverbal sound":
+        duration = source_seconds + 0.5
+    elif task == "Remove nonverbal sounds":
+        duration = max(0.1, source_seconds - 0.3)
+    else:
+        duration = source_seconds
+    return max(1, round(duration * FRAMES_PER_SECOND)) / FRAMES_PER_SECOND
+
+
+def prepare_audio(audio, task):
+    if audio is None:
+        return None
+    waveform = audio["waveform"].detach().cpu().float().mean(1, keepdim=True)
+    if not torch.isfinite(waveform).all():
+        raise ValueError("Prompt Enhance audio contains NaN or Inf.")
+    target_rms = None
+    if task == "Convert to whisper":
+        target_rms = WHISPER_TARGET_RMS
+    elif task == "Whisper to speech":
+        target_rms = WHISPER_TO_NORMAL_TARGET_RMS
+    if target_rms is not None:
+        rms = waveform.double().square().mean(dim=(-2, -1), keepdim=True).sqrt().clamp_min(1e-9)
+        waveform = waveform * (target_rms / rms).float()
+        peak = waveform.abs().amax(dim=(-2, -1), keepdim=True).clamp_min(1e-9)
+        waveform = waveform * torch.minimum(torch.ones_like(peak), WHISPER_PEAK_CEILING / peak)
+    return {"waveform": waveform, "sample_rate": audio["sample_rate"]}
+
+
+def enhance(encoder, instruction, tasks, context=None, max_new_tokens=256, return_details=False):
     system = SYSTEM_PROMPT.format(capabilities=capabilities_text(tasks))
     user = str(instruction or "").strip()
     if not user:
@@ -145,4 +238,14 @@ def enhance(encoder, instruction, tasks, context=None, max_new_tokens=256):
         seconds = estimate_seconds(params.get("text") or instruction, seconds)
     else:
         seconds = 0.0
-    return instruction_out, seconds, task
+    result = (instruction_out, seconds, task)
+    return (*result, params) if return_details else result
+
+
+def prepare(encoder, instruction, tasks, audio=None, context=None, max_new_tokens=256):
+    text, suggested, task, params = enhance(
+        encoder, instruction, tasks, context=context,
+        max_new_tokens=max_new_tokens, return_details=True,
+    )
+    seconds = task_seconds(task, params, audio, context, suggested)
+    return text, seconds, task, prepare_audio(audio, task)

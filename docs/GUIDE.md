@@ -9,9 +9,13 @@ Select an AuK diffusion model, Qwen encoder and AuK VAE in their loaders. Only m
 1. Connect Model Loader to both Instruction Encode.model and Generate / Edit.model.
 2. Connect Encoder Loader to Instruction Encode.encoder, and VAE Loader to Generate / Edit.vae.
 3. Connect Instruction Encode.CONDITIONING to Generate / Edit.conditioning.
-4. For editing/cloning, connect core Load Audio to Instruction Encode.audio. Leave it disconnected for text-only TTS.
+4. For direct editing/cloning, connect core Load Audio to Instruction Encode.audio. When using Prompt Enhance, connect Load Audio to Prompt Enhance.audio and connect its prepared_audio output to Instruction Encode.audio. Leave audio disconnected for text-only TTS.
 5. Paste an example below into Instruction Encode.instruction, or select its task in Instruction Builder and connect the STRING output. A connected STRING overrides the typed instruction widget.
 6. Connect Generate / Edit.AUDIO to core Preview Audio or Save Audio, then queue.
+
+For the local Prompt Enhance workflow, also connect the same Load Audio output to AuK Whisper Transcribe and connect its STRING transcript to Prompt Enhance.context. Qwen2.5-Omni-3B produces the task command locally; the transcript and audio let deterministic PE code calculate content-aware duration and apply the upstream whisper RMS targets.
+
+For difficult editing tasks, our testing found that manually setting the output about **0.2–0.5 seconds shorter than the source** can improve instruction adherence. For example, try 5.5 seconds for a 6-second source, even when the replacement would normally need more time. Disconnect Prompt Enhance.seconds and enter the duration manually to test this workaround.
 
 Start with Base at **32 steps, guidance=2, sway=-1, seed=42**. Flash always uses four fixed steps without guidance and ignores those three sampling controls. `seconds=0` matches the source duration; text-only TTS needs a positive duration. Output is mono 24 kHz. There is no combined source/target duration cap; longer clips require more memory and processing time. Note that upstream's ComfyUI wrapper enforces a shared 30-second source+target budget, while upstream's standalone Python tooling sets no limit — this integration follows the Python tooling.
 

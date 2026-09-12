@@ -5,7 +5,7 @@
 本地运行的 AuK Base 与 AuK-Flash 语音生成、声音克隆、语音编辑、增强与人声分离。
 使用 ComfyUI 的模型管理、注意力与量化算子。音频输入输出使用 ComfyUI 原生的 `AUDIO` 类型。
 
-<img width="2115" height="698" alt="image" src="https://github.com/user-attachments/assets/5ef6e87b-4a24-4ae4-86fc-fcd3e54b3cab" />
+<img width="2115" height="698" alt="image" src="https://github.com/user-attachments/assets/741b37dc-72eb-46ac-982d-eb90591e64d7" />
 
 
 > **安装前请先阅读：** 该模型的指令遵循度并不强——声音克隆、TTS 与部分编辑任务可用，但其他任务不稳定。这是模型本身的局限，与本集成无关。下载任何模型前，请先查看[指令遵循度](#指令遵循度)中的实测任务列表。
@@ -14,13 +14,14 @@
 
 | 节点 | 输入 | 输出 |
 | --- | --- | --- |
-| AuK Model Loader | Base/Flash 检查点、计算精度 | AUK_MODEL |
+| AuK Model Loader | Base/Flash 检查点、计算精度、注意力后端 | AUK_MODEL |
 | AuK Encoder Loader | 转换后的 Qwen2.5-Omni 编码器、计算精度 | AUK_ENCODER |
 | AuK VAE Loader | 原始未量化的 AuK VAE | VAE |
 | AuK Instruction Encode | 模型、编码器、指令文本、可选音频 | CONDITIONING |
 | AuK Generate / Edit | 模型、条件、VAE、时长、种子、步数、引导、sway | AUDIO |
 | AuK Instruction Builder | 任务模板及其字段 | STRING |
 | AuK Whisper Transcribe | 音频、模型、语言、任务 | STRING |
+| AuK Prompt Enhance | 编码器、请求、可选 ASR 文字稿/音频 | 指令、时长、任务、预处理音频 |
 
 Instruction Encode 需要接入 AuK 模型，因为 Base 与 Flash 各自带有学习到的
 Qwen 层融合权重。条件编码在去噪之前一次性完成。
@@ -47,7 +48,7 @@ python -m pip install -r requirements.txt
 
 ## 模型与目录
 
-预转换模型：[drbaph/AuK-comfyui](https://huggingface.co/drbaph/AuK-comfyui)。选择一个 Base 或 Flash 模型、一个 Qwen 编码器，再下载未量化 VAE。三种量化版本可以独立搭配，无需全部下载。
+从 **[drbaph/AuK-comfyui](https://huggingface.co/drbaph/AuK-comfyui)** 下载可直接使用的检查点。选择一个 Base 或 Flash 模型、一个 Qwen 编码器和未量化 VAE。模型与编码器格式可以混用，无需下载所有文件。
 
 下表使用十进制 GB（1 GB = 1,000,000,000 字节），表示文件大小，不是显存需求。全部十二个检查点文件均已上传，下载链接已核对。
 
@@ -102,7 +103,7 @@ python -m pip install -r requirements.txt
 
 1. **01_text_to_speech.json** — 无参考音频、按描述生成语音。
 2. **02_audio_edit_or_clone.json** — 上传源/参考音频并修改指令，覆盖全部编辑任务。
-3. **03_voice_clone_plus.json** — 声音克隆，内置 Whisper Transcribe（缺少模型时
+3. **03_voice_clone_plus.json** — 声音克隆，并已连接 Whisper Transcribe（缺少模型时
    可自动下载）、Instruction Builder 与 Prompt Enhance。
 
 在加载器中选择已安装的检查点。音频示例需要你在 Load Audio 中选择/上传输入，
@@ -115,6 +116,14 @@ python -m pip install -r requirements.txt
 可将可选的 Instruction Builder 的 STRING 输出连接到 Instruction Encode 的
 instruction 输入，或直接输入任意受支持的指令。
 
+**AuK Prompt Enhance** 使用已加载的 Qwen2.5-Omni-3B 语言模型头在本地运行。
+把源音频连接到 `audio`，最好再把 AuK Whisper Transcribe 的文字稿连接到
+`context`。节点会生成规范的 AuK 指令，按任务与文字稿计算目标时长，并为耳语
+转换应用上游使用的 RMS 目标。把 `instruction` 接到 Instruction Encode，
+`seconds` 接到 Generate / Edit，`prepared_audio` 接到 Instruction Encode 的
+audio 输入。它不调用外部 OpenAI 兼容 LLM，因此分类效果可能与上游推荐的
+`hy3` 不同。
+
 **AuK Whisper Transcribe** 是可选辅助节点：使用 Whisper 模型转写音频。
 将包含 `config.json` 的 Whisper 检查点目录放入 `ComfyUI/models/whisper/`
 或 `ComfyUI/models/audio_encoders/`；也可以开启 `download_if_missing` 开关，
@@ -122,7 +131,8 @@ instruction 输入，或直接输入任意受支持的指令。
 `models/whisper/<size>/`，之后复用本地副本。AuK 从不需要参考
 音频的文字稿——它的编码器直接听取音频——但文字稿有助于编写目标说话人、
 替换语音与歌词编辑指令，也可用于检查 AuK 实际说了什么。超过 30 秒的音频
-将分窗转写。
+使用 Whisper 原生的时间戳引导长音频处理，不会截断源音频。它也可以转写 AuK
+生成的音频，用于质量检查。
 
 | 任务 | 示例指令 / 控制 |
 | --- | --- |

@@ -1,6 +1,6 @@
 [project]
 name = "ComfyUI-AuK"
-version = "1.0.0"
+version = "1.0.1"
 description = "AuK speech generation and editing with local Qwen conditioning and ComfyUI model management"
 license = {file = "LICENSE"}
 requires-python = ">=3.10"

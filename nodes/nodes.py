@@ -206,20 +206,24 @@ class AuKPromptEnhance(io.ComfyNode):
             node_id="AuKPromptEnhance",
             display_name="AuK Prompt Enhance",
             category="AuK",
-            description="Local port of upstream's Prompt Enhancer: maps a loosely worded request onto the closest AuK task using the language head of the loaded Qwen encoder, then renders the canonical instruction. Wire its outputs into Instruction Encode and Generate / Edit.",
+            description="Local Prompt Enhancer driven by Qwen2.5-Omni-3B. It uses an optional ASR transcript to render the model instruction, calculate task-aware duration, and prepare whisper audio levels. Wire all applicable outputs forward.",
             inputs=[
                 AUK_ENCODER.Input("encoder", tooltip="Encoder from AuK Encoder Loader. Its checkpoint must include the language head - re-run tools/convert.py --component encoder on the original Qwen directory if this errors."),
                 io.String.Input("instruction", multiline=True, default="make her sound excited and say welcome home", tooltip="Loose request in any wording. The language model picks the closest AuK task and fills its template."),
                 io.String.Input("context", multiline=True, default="", optional=True, tooltip="Optional extra context, e.g. the STRING output of AuK Whisper Transcribe on the source audio."),
+                io.Audio.Input("audio", optional=True, tooltip="Source/reference audio. Required for edit-task duration calculation and whisper audio preparation. Connect the prepared_audio output to Instruction Encode.audio."),
                 io.Int.Input("max_new_tokens", default=256, min=32, max=1024, optional=True, tooltip="Generation budget for the language-model answer."),
             ],
-            outputs=[io.String.Output(display_name="instruction"), io.Float.Output(display_name="seconds"), io.String.Output(display_name="task")],
+            outputs=[io.String.Output(display_name="instruction"), io.Float.Output(display_name="seconds"), io.String.Output(display_name="task"), io.Audio.Output(display_name="prepared_audio")],
         )
 
     @classmethod
-    def execute(cls, encoder, instruction, context, max_new_tokens):
-        text, seconds, task = prompt_enhance.enhance(encoder, instruction, TASKS, context=context or None, max_new_tokens=max_new_tokens)
-        return io.NodeOutput(text, seconds, task, ui=ui.PreviewText(text))
+    def execute(cls, encoder, instruction, context="", audio=None, max_new_tokens=256):
+        text, seconds, task, prepared = prompt_enhance.prepare(
+            encoder, instruction, TASKS, audio=audio, context=context or None,
+            max_new_tokens=max_new_tokens,
+        )
+        return io.NodeOutput(text, seconds, task, prepared, ui=ui.PreviewText(text))
 
 
 class AuKExtension(ComfyExtension):

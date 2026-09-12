@@ -1,8 +1,8 @@
 {
   "id": "073fd306-e9e1-494b-9b9c-7e8fe2ec9a6b",
   "revision": 0,
-  "last_node_id": 24,
-  "last_link_id": 38,
+  "last_node_id": 30,
+  "last_link_id": 52,
   "nodes": [
     {
       "id": 10,
@@ -31,57 +31,13 @@
         }
       },
       "widgets_values": [
-        "## AuK models\n\nDownload one diffusion model, one Qwen encoder and the VAE. Mix precisions if needed. Sizes below are disk GB, not VRAM requirements.\n\n| Model | BF16 | INT8 ConvRot | W4A8 ConvRot |\n| --- | --- | --- | --- |\n| Base | [3.062 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_bf16.safetensors?download=true) | [1.546 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_int8.safetensors?download=true) | [0.880 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_w4a8.safetensors?download=true) |\n| Flash | [3.062 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_bf16.safetensors?download=true) | [1.546 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_int8.safetensors?download=true) | [0.880 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_w4a8.safetensors?download=true) |\n| Qwen encoder | [8.070 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_bf16.safetensors?download=true) | [4.669 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_int8.safetensors?download=true) | [3.179 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_w4a8.safetensors?download=true) |\n\n[VAE: 0.637 GB, unquantized](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/vae/auk_vae.safetensors?download=true)\n\n## Model folders\n\n```text\n📂 ComfyUI/\n└── 📂 models/\n    ├── 📂 diffusion_models/\n    │   └── auk_base_w4a8.safetensors\n    ├── 📂 text_encoders/\n    │   └── qwen_omni_int8.safetensors\n    └── 📂 vae/\n        └── auk_vae.safetensors\n```\n\nThe filenames above are the ones this workflow selects; other formats work, select your installed files in the loaders. Qwen config/tokenizer files are bundled with the node pack; only download weights.\n\n## Settings\n\n- Base: 32 steps, guidance 2, sway -1.\n- Flash: fixed four steps, no guidance; ignores those controls.\n- Compute precision: auto. Quantization comes from the checkpoint.\n- Attention: auto follows ComfyUI; explicit Flash/Sage fall back to SDPA when incompatible or masked.\n- Output: mono 24 kHz.\n- Reference/source audio plus the generated target share one 30-second budget; trim longer clips first.\n\n[Task guide with examples](https://github.com/Saganaki22/ComfyUI-AuK/blob/main/docs/GUIDE.md) · [Report an issue](https://github.com/Saganaki22/ComfyUI-AuK/issues)"
+        "## AuK models\n\nDownload one diffusion model, one Qwen encoder and the VAE. Mix precisions if needed. Sizes below are disk GB, not VRAM requirements.\n\n| Model | BF16 | INT8 ConvRot | W4A8 ConvRot |\n| --- | --- | --- | --- |\n| Base | [3.062 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_bf16.safetensors?download=true) | [1.546 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_int8.safetensors?download=true) | [0.880 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_w4a8.safetensors?download=true) |\n| Flash | [3.062 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_bf16.safetensors?download=true) | [1.546 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_int8.safetensors?download=true) | [0.880 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_w4a8.safetensors?download=true) |\n| Qwen encoder | [8.070 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_bf16.safetensors?download=true) | [4.669 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_int8.safetensors?download=true) | [3.179 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_w4a8.safetensors?download=true) |\n\n[VAE: 0.637 GB, unquantized](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/vae/auk_vae.safetensors?download=true)\n\n## Model folders\n\n```text\n📂 ComfyUI/\n└── 📂 models/\n    ├── 📂 diffusion_models/\n    │   └── auk_base_w4a8.safetensors\n    ├── 📂 text_encoders/\n    │   └── qwen_omni_int8.safetensors\n    └── 📂 vae/\n        └── auk_vae.safetensors\n```\n\nThe filenames above are the ones this workflow selects; other formats work, select your installed files in the loaders. Qwen config/tokenizer files are bundled with the node pack; only download weights.\n\n## Prompt Enhance wiring\n\nLoad Audio feeds Whisper Transcribe and Prompt Enhance. Connect the transcript to Prompt Enhance context. Connect Prompt Enhance instruction and prepared_audio to Instruction Encode, and seconds to Generate / Edit. This lets local Qwen create the command while the transcript controls content-edit duration.\n\n## Settings\n\n- Base: 32 steps, guidance 2, sway -1.\n- Flash: fixed four steps, no guidance; ignores those controls.\n- Compute precision: auto. Quantization comes from the checkpoint.\n- Attention: auto follows ComfyUI; explicit Flash/Sage fall back to SDPA when incompatible or masked.\n- Output: mono 24 kHz.\n- No combined source/target duration cap is imposed; longer clips need more VRAM and time.\n\n[Task guide with examples](https://github.com/Saganaki22/ComfyUI-AuK/blob/main/docs/GUIDE.md) · [Report an issue](https://github.com/Saganaki22/ComfyUI-AuK/issues)"
       ],
       "widgets_values_named": {
-        "text": "## AuK models\n\nDownload one diffusion model, one Qwen encoder and the VAE. Mix precisions if needed. Sizes below are disk GB, not VRAM requirements.\n\n| Model | BF16 | INT8 ConvRot | W4A8 ConvRot |\n| --- | --- | --- | --- |\n| Base | [3.062 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_bf16.safetensors?download=true) | [1.546 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_int8.safetensors?download=true) | [0.880 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_w4a8.safetensors?download=true) |\n| Flash | [3.062 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_bf16.safetensors?download=true) | [1.546 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_int8.safetensors?download=true) | [0.880 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_w4a8.safetensors?download=true) |\n| Qwen encoder | [8.070 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_bf16.safetensors?download=true) | [4.669 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_int8.safetensors?download=true) | [3.179 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_w4a8.safetensors?download=true) |\n\n[VAE: 0.637 GB, unquantized](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/vae/auk_vae.safetensors?download=true)\n\n## Model folders\n\n```text\n📂 ComfyUI/\n└── 📂 models/\n    ├── 📂 diffusion_models/\n    │   └── auk_base_w4a8.safetensors\n    ├── 📂 text_encoders/\n    │   └── qwen_omni_int8.safetensors\n    └── 📂 vae/\n        └── auk_vae.safetensors\n```\n\nThe filenames above are the ones this workflow selects; other formats work, select your installed files in the loaders. Qwen config/tokenizer files are bundled with the node pack; only download weights.\n\n## Settings\n\n- Base: 32 steps, guidance 2, sway -1.\n- Flash: fixed four steps, no guidance; ignores those controls.\n- Compute precision: auto. Quantization comes from the checkpoint.\n- Attention: auto follows ComfyUI; explicit Flash/Sage fall back to SDPA when incompatible or masked.\n- Output: mono 24 kHz.\n- Reference/source audio plus the generated target share one 30-second budget; trim longer clips first.\n\n[Task guide with examples](https://github.com/Saganaki22/ComfyUI-AuK/blob/main/docs/GUIDE.md) · [Report an issue](https://github.com/Saganaki22/ComfyUI-AuK/issues)"
+        "text": "## AuK models\n\nDownload one diffusion model, one Qwen encoder and the VAE. Mix precisions if needed. Sizes below are disk GB, not VRAM requirements.\n\n| Model | BF16 | INT8 ConvRot | W4A8 ConvRot |\n| --- | --- | --- | --- |\n| Base | [3.062 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_bf16.safetensors?download=true) | [1.546 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_int8.safetensors?download=true) | [0.880 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_base_w4a8.safetensors?download=true) |\n| Flash | [3.062 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_bf16.safetensors?download=true) | [1.546 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_int8.safetensors?download=true) | [0.880 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/diffusion_models/auk_flash_w4a8.safetensors?download=true) |\n| Qwen encoder | [8.070 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_bf16.safetensors?download=true) | [4.669 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_int8.safetensors?download=true) | [3.179 GB](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/text_encoders/qwen_omni_w4a8.safetensors?download=true) |\n\n[VAE: 0.637 GB, unquantized](https://huggingface.co/drbaph/AuK-comfyui/resolve/main/vae/auk_vae.safetensors?download=true)\n\n## Model folders\n\n```text\n📂 ComfyUI/\n└── 📂 models/\n    ├── 📂 diffusion_models/\n    │   └── auk_base_w4a8.safetensors\n    ├── 📂 text_encoders/\n    │   └── qwen_omni_int8.safetensors\n    └── 📂 vae/\n        └── auk_vae.safetensors\n```\n\nThe filenames above are the ones this workflow selects; other formats work, select your installed files in the loaders. Qwen config/tokenizer files are bundled with the node pack; only download weights.\n\n## Prompt Enhance wiring\n\nLoad Audio feeds Whisper Transcribe and Prompt Enhance. Connect the transcript to Prompt Enhance context. Connect Prompt Enhance instruction and prepared_audio to Instruction Encode, and seconds to Generate / Edit. This lets local Qwen create the command while the transcript controls content-edit duration.\n\n## Settings\n\n- Base: 32 steps, guidance 2, sway -1.\n- Flash: fixed four steps, no guidance; ignores those controls.\n- Compute precision: auto. Quantization comes from the checkpoint.\n- Attention: auto follows ComfyUI; explicit Flash/Sage fall back to SDPA when incompatible or masked.\n- Output: mono 24 kHz.\n- No combined source/target duration cap is imposed; longer clips need more VRAM and time.\n\n[Task guide with examples](https://github.com/Saganaki22/ComfyUI-AuK/blob/main/docs/GUIDE.md) · [Report an issue](https://github.com/Saganaki22/ComfyUI-AuK/issues)"
       },
       "color": "#222",
       "bgcolor": "#000"
-    },
-    {
-      "id": 3,
-      "type": "AuKVAELoader",
-      "pos": [
-        24.505310034474014,
-        287.46164783057026
-      ],
-      "size": [
-        338.62107203122207,
-        58
-      ],
-      "flags": {},
-      "order": 1,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "VAE",
-          "type": "VAE",
-          "slot_index": 0,
-          "links": [
-            4
-          ]
-        }
-      ],
-      "properties": {
-        "aux_id": "Saganaki22/ComfyUI-AuK",
-        "ver": "unknown",
-        "Node name for S&R": "AuKVAELoader",
-        "ue_properties": {
-          "widget_ue_connectable": {},
-          "version": "7.8",
-          "input_ue_unconnectable": {}
-        }
-      },
-      "widgets_values": [
-        "auk_vae.safetensors"
-      ],
-      "widgets_values_named": {
-        "vae_name": "AuK\\auk_vae.safetensors"
-      },
-      "color": "#322",
-      "bgcolor": "#533"
     },
     {
       "id": 4,
@@ -95,7 +51,7 @@
         230
       ],
       "flags": {},
-      "order": 9,
+      "order": 10,
       "mode": 0,
       "inputs": [
         {
@@ -112,7 +68,7 @@
           "name": "audio",
           "shape": 7,
           "type": "AUDIO",
-          "link": 35
+          "link": 44
         },
         {
           "name": "instruction",
@@ -120,7 +76,7 @@
           "widget": {
             "name": "instruction"
           },
-          "link": 31
+          "link": 45
         }
       ],
       "outputs": [
@@ -134,9 +90,10 @@
         }
       ],
       "properties": {
-        "aux_id": "Saganaki22/ComfyUI-AuK",
+        "cnr_id": "ComfyUI-AuK",
         "ver": "unknown",
         "Node name for S&R": "AuKInstructionEncode",
+        "aux_id": "Saganaki22/ComfyUI-AuK",
         "ue_properties": {
           "widget_ue_connectable": {},
           "version": "7.8",
@@ -148,433 +105,6 @@
       ],
       "widgets_values_named": {
         "instruction": "Replace 'You alright mate?' with 'Hey mate, how are you?'."
-      },
-      "color": "#432",
-      "bgcolor": "#653"
-    },
-    {
-      "id": 20,
-      "type": "AuKPromptEnhance",
-      "pos": [
-        366.3724777494512,
-        296.4644442979483
-      ],
-      "size": [
-        335.18845952116635,
-        206
-      ],
-      "flags": {},
-      "order": 8,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "encoder",
-          "type": "AUK_ENCODER",
-          "link": 24
-        },
-        {
-          "name": "instruction",
-          "type": "STRING",
-          "widget": {
-            "name": "instruction"
-          },
-          "link": 32
-        },
-        {
-          "name": "context",
-          "shape": 7,
-          "type": "STRING",
-          "widget": {
-            "name": "context"
-          },
-          "link": 33
-        }
-      ],
-      "outputs": [
-        {
-          "name": "instruction",
-          "type": "STRING",
-          "links": [
-            31,
-            34
-          ]
-        },
-        {
-          "name": "seconds",
-          "type": "FLOAT",
-          "links": [
-            26
-          ]
-        },
-        {
-          "name": "task",
-          "type": "STRING",
-          "links": []
-        }
-      ],
-      "properties": {
-        "aux_id": "Saganaki22/ComfyUI-AuK",
-        "ver": "unknown",
-        "Node name for S&R": "AuKPromptEnhance",
-        "ue_properties": {
-          "widget_ue_connectable": {},
-          "input_ue_unconnectable": {},
-          "version": "7.8"
-        }
-      },
-      "widgets_values": [
-        "",
-        "",
-        256
-      ],
-      "widgets_values_named": {
-        "instruction": "",
-        "context": "",
-        "max_new_tokens": 256
-      },
-      "color": "#432",
-      "bgcolor": "#653"
-    },
-    {
-      "id": 18,
-      "type": "ShowText|pysssss",
-      "pos": [
-        705.7430969300451,
-        295.38429249114586
-      ],
-      "size": [
-        349.9943059963846,
-        193.9330260651849
-      ],
-      "flags": {},
-      "order": 10,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 34
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "shape": 6,
-          "type": "STRING",
-          "links": null
-        }
-      ],
-      "title": "Prompt Enhance Output",
-      "properties": {
-        "cnr_id": "comfyui-custom-scripts",
-        "ver": "1.2.5",
-        "Node name for S&R": "ShowText|pysssss",
-        "ue_properties": {
-          "widget_ue_connectable": {},
-          "input_ue_unconnectable": {},
-          "version": "7.8"
-        }
-      },
-      "widgets_values": [
-        "Say the following with the same voice: \"Today is a fresh chance to move forward. You don’t need to have everything figured out—you just need to take the next small step.\"."
-      ],
-      "widgets_values_named": {
-        "text_0": "Say the following with the same voice: \"Today is a fresh chance to move forward. You don’t need to have everything figured out—you just need to take the next small step.\"."
-      },
-      "color": "#432",
-      "bgcolor": "#653"
-    },
-    {
-      "id": 7,
-      "type": "LoadAudio",
-      "pos": [
-        23.248912754218644,
-        381.0800972299564
-      ],
-      "size": [
-        337.719297252308,
-        147.89470108308728
-      ],
-      "flags": {},
-      "order": 2,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "AUDIO",
-          "type": "AUDIO",
-          "slot_index": 0,
-          "links": [
-            35,
-            38
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.34.0",
-        "Node name for S&R": "LoadAudio",
-        "ue_properties": {
-          "widget_ue_connectable": {},
-          "version": "7.8",
-          "input_ue_unconnectable": {}
-        }
-      },
-      "widgets_values": [
-        "sample-2.mp3",
-        null,
-        null
-      ],
-      "widgets_values_named": {
-        "audio": "sample-2.mp3",
-        "upload": null
-      },
-      "color": "#222",
-      "bgcolor": "#000"
-    },
-    {
-      "id": 14,
-      "type": "ShowText|pysssss",
-      "pos": [
-        372.16234517979257,
-        541.5217266665907
-      ],
-      "size": [
-        323.34725319537665,
-        135.11663771252802
-      ],
-      "flags": {},
-      "order": 7,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "text",
-          "type": "STRING",
-          "link": 37
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "shape": 6,
-          "type": "STRING",
-          "links": [
-            33
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfyui-custom-scripts",
-        "ver": "1.2.5",
-        "Node name for S&R": "ShowText|pysssss",
-        "ue_properties": {
-          "widget_ue_connectable": {},
-          "input_ue_unconnectable": {},
-          "version": "7.8"
-        }
-      },
-      "widgets_values": [
-        "It's not about what we have or what we achieve but about how we experience each moment. This is the most profound secret of life."
-      ],
-      "widgets_values_named": {
-        "text_0": "It's not about what we have or what we achieve but about how we experience each moment. This is the most profound secret of life."
-      },
-      "color": "#432",
-      "bgcolor": "#653"
-    },
-    {
-      "id": 17,
-      "type": "AuKInstructionBuilder",
-      "pos": [
-        360.69006903906313,
-        -199.52433259589955
-      ],
-      "size": [
-        342.7397768234823,
-        191.824596169221
-      ],
-      "flags": {},
-      "order": 3,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            32
-          ]
-        }
-      ],
-      "properties": {
-        "aux_id": "Saganaki22/ComfyUI-AuK",
-        "ver": "unknown",
-        "Node name for S&R": "AuKInstructionBuilder",
-        "ue_properties": {
-          "widget_ue_connectable": {},
-          "input_ue_unconnectable": {},
-          "version": "7.8"
-        }
-      },
-      "widgets_values": [
-        "Voice cloning",
-        "Today is a fresh chance to move forward. You don’t need to have everything figured out—you just need to take the next small step."
-      ],
-      "widgets_values_named": {
-        "task": "Voice cloning",
-        "task.text": "Today is a fresh chance to move forward. You don’t need to have everything figured out—you just need to take the next small step."
-      },
-      "color": "#432",
-      "bgcolor": "#653"
-    },
-    {
-      "id": 24,
-      "type": "AuKWhisperTranscribe",
-      "pos": [
-        29.463243295788754,
-        564.9053104754645
-      ],
-      "size": [
-        330.98320842739486,
-        154
-      ],
-      "flags": {},
-      "order": 6,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "audio",
-          "type": "AUDIO",
-          "link": 38
-        }
-      ],
-      "outputs": [
-        {
-          "name": "STRING",
-          "type": "STRING",
-          "links": [
-            37
-          ]
-        }
-      ],
-      "properties": {
-        "ue_properties": {
-          "widget_ue_connectable": {},
-          "input_ue_unconnectable": {}
-        },
-        "aux_id": "Saganaki22/ComfyUI-AuK",
-        "ver": "unknown",
-        "Node name for S&R": "AuKWhisperTranscribe"
-      },
-      "widgets_values": [
-        "large-v3-turbo",
-        true,
-        "large-v3",
-        "auto",
-        "transcribe"
-      ],
-      "widgets_values_named": {
-        "model": "openai_whisper-large-v3-turbo",
-        "download_if_missing": false,
-        "model_size": "large-v3",
-        "language": "auto",
-        "task": "transcribe"
-      },
-      "color": "#432",
-      "bgcolor": "#653"
-    },
-    {
-      "id": 1,
-      "type": "AuKModelLoader",
-      "pos": [
-        21.518047632550335,
-        30
-      ],
-      "size": [
-        332.2756165403549,
-        106
-      ],
-      "flags": {},
-      "order": 4,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "AUK_MODEL",
-          "type": "AUK_MODEL",
-          "slot_index": 0,
-          "links": [
-            1,
-            3
-          ]
-        }
-      ],
-      "properties": {
-        "aux_id": "Saganaki22/ComfyUI-AuK",
-        "ver": "unknown",
-        "Node name for S&R": "AuKModelLoader",
-        "ue_properties": {
-          "widget_ue_connectable": {},
-          "version": "7.8",
-          "input_ue_unconnectable": {}
-        }
-      },
-      "widgets_values": [
-        "auk_base_w4a8.safetensors",
-        "auto",
-        "sdpa"
-      ],
-      "widgets_values_named": {
-        "model_name": "AuK\\auk_base_w4a8.safetensors",
-        "precision": "auto",
-        "attention": "sdpa"
-      },
-      "color": "#323",
-      "bgcolor": "#535"
-    },
-    {
-      "id": 2,
-      "type": "AuKEncoderLoader",
-      "pos": [
-        21.425612510483234,
-        171.2598382566918
-      ],
-      "size": [
-        336.1378082701774,
-        82
-      ],
-      "flags": {},
-      "order": 5,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "AUK_ENCODER",
-          "type": "AUK_ENCODER",
-          "slot_index": 0,
-          "links": [
-            2,
-            24
-          ]
-        }
-      ],
-      "properties": {
-        "aux_id": "Saganaki22/ComfyUI-AuK",
-        "ver": "unknown",
-        "Node name for S&R": "AuKEncoderLoader",
-        "ue_properties": {
-          "widget_ue_connectable": {},
-          "version": "7.8",
-          "input_ue_unconnectable": {}
-        }
-      },
-      "widgets_values": [
-        "qwen_omni_int8.safetensors",
-        "auto"
-      ],
-      "widgets_values_named": {
-        "encoder_name": "AuK\\qwen_omni_int8.safetensors",
-        "precision": "auto"
       },
       "color": "#432",
       "bgcolor": "#653"
@@ -615,7 +145,7 @@
           "widget": {
             "name": "seconds"
           },
-          "link": 26
+          "link": 46
         }
       ],
       "outputs": [
@@ -629,9 +159,10 @@
         }
       ],
       "properties": {
-        "aux_id": "Saganaki22/ComfyUI-AuK",
+        "cnr_id": "ComfyUI-AuK",
         "ver": "unknown",
         "Node name for S&R": "AuKGenerateEdit",
+        "aux_id": "Saganaki22/ComfyUI-AuK",
         "ue_properties": {
           "widget_ue_connectable": {},
           "version": "7.8",
@@ -656,6 +187,482 @@
       },
       "color": "#232",
       "bgcolor": "#353"
+    },
+    {
+      "id": 1,
+      "type": "AuKModelLoader",
+      "pos": [
+        21.518047632550335,
+        30
+      ],
+      "size": [
+        332.2756165403549,
+        106
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "AUK_MODEL",
+          "type": "AUK_MODEL",
+          "slot_index": 0,
+          "links": [
+            1,
+            3
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "ComfyUI-AuK",
+        "ver": "unknown",
+        "Node name for S&R": "AuKModelLoader",
+        "aux_id": "Saganaki22/ComfyUI-AuK",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "AuK\\auk_base.safetensors",
+        "auto",
+        "sdpa"
+      ],
+      "widgets_values_named": {
+        "model_name": "AuK\\auk_base.safetensors",
+        "precision": "auto",
+        "attention": "sdpa"
+      },
+      "color": "#323",
+      "bgcolor": "#535"
+    },
+    {
+      "id": 2,
+      "type": "AuKEncoderLoader",
+      "pos": [
+        19.088986513940622,
+        173.59646425323444
+      ],
+      "size": [
+        336.1378082701774,
+        82
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "AUK_ENCODER",
+          "type": "AUK_ENCODER",
+          "slot_index": 0,
+          "links": [
+            2,
+            48
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "ComfyUI-AuK",
+        "ver": "unknown",
+        "Node name for S&R": "AuKEncoderLoader",
+        "aux_id": "Saganaki22/ComfyUI-AuK",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "AuK\\qwen_omni_bf16.safetensors",
+        "auto"
+      ],
+      "widgets_values_named": {
+        "encoder_name": "AuK\\qwen_omni_bf16.safetensors",
+        "precision": "auto"
+      },
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 18,
+      "type": "ShowText|pysssss",
+      "pos": [
+        700.2284528876808,
+        294.47465106557325
+      ],
+      "size": [
+        349.9943059963846,
+        193.9330260651849
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 52
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "shape": 6,
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "title": "Prompt Enhance Output",
+      "properties": {
+        "cnr_id": "comfyui-custom-scripts",
+        "ver": "1.2.5",
+        "Node name for S&R": "ShowText|pysssss",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
+      },
+      "widgets_values": [
+        "用小声耳语的方式把这段话说出来。"
+      ],
+      "widgets_values_named": {
+        "text_0": "用小声耳语的方式把这段话说出来。"
+      },
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 14,
+      "type": "ShowText|pysssss",
+      "pos": [
+        369.82571918325004,
+        572.6767399538259
+      ],
+      "size": [
+        323.34725319537665,
+        135.11663771252802
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 37
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "shape": 6,
+          "type": "STRING",
+          "links": []
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-custom-scripts",
+        "ver": "1.2.5",
+        "Node name for S&R": "ShowText|pysssss",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
+      },
+      "widgets_values": [
+        "It's not about what we have or what we achieve but about how we experience each moment. This is the most profound secret of life."
+      ],
+      "widgets_values_named": {
+        "text_0": "It's not about what we have or what we achieve but about how we experience each moment. This is the most profound secret of life."
+      },
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 29,
+      "type": "AuKPromptEnhance",
+      "pos": [
+        368.05460302712606,
+        295.7090805880157
+      ],
+      "size": [
+        326.9981393201383,
+        227.98902874085843
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "encoder",
+          "type": "AUK_ENCODER",
+          "link": 48
+        },
+        {
+          "name": "audio",
+          "shape": 7,
+          "type": "AUDIO",
+          "link": 42
+        },
+        {
+          "name": "instruction",
+          "type": "STRING",
+          "widget": {
+            "name": "instruction"
+          },
+          "link": 50
+        }
+      ],
+      "outputs": [
+        {
+          "name": "instruction",
+          "type": "STRING",
+          "links": [
+            45,
+            52
+          ]
+        },
+        {
+          "name": "seconds",
+          "type": "FLOAT",
+          "links": [
+            46
+          ]
+        },
+        {
+          "name": "task",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "name": "prepared_audio",
+          "type": "AUDIO",
+          "links": [
+            44
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "ComfyUI-AuK",
+        "ver": "904e07d20f31d297722615587d8b2d2748b38125",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {}
+        },
+        "Node name for S&R": "AuKPromptEnhance"
+      },
+      "widgets_values": [
+        " ",
+        "",
+        256
+      ],
+      "widgets_values_named": {
+        "instruction": " ",
+        "context": "",
+        "max_new_tokens": 256
+      },
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 3,
+      "type": "AuKVAELoader",
+      "pos": [
+        20.64311830465151,
+        290.6801409387557
+      ],
+      "size": [
+        338.62107203122207,
+        58
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "slot_index": 0,
+          "links": [
+            4
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "ComfyUI-AuK",
+        "ver": "unknown",
+        "Node name for S&R": "AuKVAELoader",
+        "aux_id": "Saganaki22/ComfyUI-AuK",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "AuK\\auk_vae.safetensors"
+      ],
+      "widgets_values_named": {
+        "vae_name": "AuK\\auk_vae.safetensors"
+      },
+      "color": "#322",
+      "bgcolor": "#533"
+    },
+    {
+      "id": 24,
+      "type": "AuKWhisperTranscribe",
+      "pos": [
+        22.38255845778082,
+        565.5490090971016
+      ],
+      "size": [
+        330.98320842739486,
+        154
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 38
+        }
+      ],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            37
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "ComfyUI-AuK",
+        "ver": "unknown",
+        "Node name for S&R": "AuKWhisperTranscribe",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        },
+        "aux_id": "Saganaki22/ComfyUI-AuK"
+      },
+      "widgets_values": [
+        "large-v3-turbo",
+        true,
+        "large-v3",
+        "auto",
+        "transcribe"
+      ],
+      "widgets_values_named": {
+        "model": "large-v3-turbo",
+        "download_if_missing": true,
+        "model_size": "large-v3",
+        "language": "auto",
+        "task": "transcribe"
+      },
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 7,
+      "type": "LoadAudio",
+      "pos": [
+        20.030419646033216,
+        382.3674944732306
+      ],
+      "size": [
+        337.719297252308,
+        147.89470108308728
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "slot_index": 0,
+          "links": [
+            38,
+            42
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.34.0",
+        "Node name for S&R": "LoadAudio",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "sample-2.mp3",
+        null,
+        null
+      ],
+      "widgets_values_named": {
+        "audio": "sample-2.mp3",
+        "upload": null
+      },
+      "color": "#222",
+      "bgcolor": "#000"
+    },
+    {
+      "id": 17,
+      "type": "AuKInstructionBuilder",
+      "pos": [
+        705.0281833285406,
+        526.9281838388475
+      ],
+      "size": [
+        342.7397768234823,
+        58
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            50
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "ComfyUI-AuK",
+        "ver": "unknown",
+        "Node name for S&R": "AuKInstructionBuilder",
+        "aux_id": "Saganaki22/ComfyUI-AuK",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
+      },
+      "widgets_values": [
+        "Convert to whisper"
+      ],
+      "widgets_values_named": {
+        "task": "Convert to whisper"
+      },
+      "color": "#432",
+      "bgcolor": "#653"
     },
     {
       "id": 21,
@@ -751,62 +758,6 @@
       "CONDITIONING"
     ],
     [
-      24,
-      2,
-      0,
-      20,
-      0,
-      "AUK_ENCODER"
-    ],
-    [
-      26,
-      20,
-      1,
-      5,
-      3,
-      "FLOAT"
-    ],
-    [
-      31,
-      20,
-      0,
-      4,
-      3,
-      "STRING"
-    ],
-    [
-      32,
-      17,
-      0,
-      20,
-      1,
-      "STRING"
-    ],
-    [
-      33,
-      14,
-      0,
-      20,
-      2,
-      "STRING"
-    ],
-    [
-      34,
-      20,
-      0,
-      18,
-      0,
-      "STRING"
-    ],
-    [
-      35,
-      7,
-      0,
-      4,
-      2,
-      "AUDIO"
-    ],
-    [
       36,
       5,
       0,
@@ -829,16 +780,72 @@
       24,
       0,
       "AUDIO"
+    ],
+    [
+      42,
+      7,
+      0,
+      29,
+      1,
+      "AUDIO"
+    ],
+    [
+      44,
+      29,
+      3,
+      4,
+      2,
+      "AUDIO"
+    ],
+    [
+      45,
+      29,
+      0,
+      4,
+      3,
+      "STRING"
+    ],
+    [
+      46,
+      29,
+      1,
+      5,
+      3,
+      "FLOAT"
+    ],
+    [
+      48,
+      2,
+      0,
+      29,
+      0,
+      "AUK_ENCODER"
+    ],
+    [
+      50,
+      17,
+      0,
+      29,
+      2,
+      "STRING"
+    ],
+    [
+      52,
+      29,
+      0,
+      18,
+      0,
+      "STRING"
     ]
   ],
   "groups": [],
   "config": {},
   "extra": {
     "ds": {
-      "scale": 1.1671841070450029,
+      "scale": 0.9646149645000011,
       "offset": [
-        665.7899424108373,
-        326.0236768869705
+        780.7987810616501,
+        237.56560992758892
       ]
     },
     "ue_links": [],
